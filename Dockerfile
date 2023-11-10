@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -yq make unzip
 
 WORKDIR /app
 
+COPY /app/config config
 COPY /app/gradle gradle
 COPY /app/build.gradle .
 COPY /app/settings.gradle .
