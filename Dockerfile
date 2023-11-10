@@ -6,18 +6,18 @@ RUN apt-get update && apt-get install -yq make unzip
 
 WORKDIR /app
 
-COPY gradle gradle
-COPY build.gradle .
-COPY settings.gradle .
-COPY gradlew .
+COPY /gradle gradle
+COPY /build.gradle .
+COPY /settings.gradle .
+COPY /gradlew .
 
 RUN ./gradlew --no-daemon dependencies
 
-COPY src src
+COPY /src src
 
 RUN ./gradlew --no-daemon build
 
-ENV JAVA_OPTS "-Xmx512M -Xms512M"
+ENV JAVA_OPTS "-Xmx128M -Xms128M"
 EXPOSE 8080
 
 CMD java -jar build/libs/app-1.0-SNAPSHOT.jar
