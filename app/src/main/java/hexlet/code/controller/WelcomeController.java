@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class WelcomeController {
+public final class WelcomeController {
     @GetMapping("/welcome")
-    String welcome(){
+    String welcome() {
         return "Welcome to Spring!";
     }
 
