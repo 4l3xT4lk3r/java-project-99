@@ -25,6 +25,8 @@ dependencies {
 	implementation("org.mapstruct:mapstruct:1.5.5.Final")
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 
+	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
+
 	implementation 'com.h2database:h2:2.2.222'
 	implementation 'org.postgresql:postgresql:42.5.4'
 
