@@ -24,24 +24,24 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    List<UserDTO> getAll() {
+    public List<UserDTO> getAll() {
         return repository.findAll().stream().map(u -> mapper.map(u)).toList();
     }
 
-    UserDTO findById(Long id) {
+    public UserDTO findById(Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with " + id + " not found!"));
         return mapper.map(user);
     }
 
-    UserDTO create(UserCreateDTO userData) {
+    public UserDTO create(UserCreateDTO userData) {
         User user = mapper.map(userData);
         user.setPassword(passwordEncoder.encode(userData.getPassword()));
         repository.save(user);
         return mapper.map(user);
     }
 
-    UserDTO update(UserUpdateDTO userData, Long id) {
+    public UserDTO update(UserUpdateDTO userData, Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with " + id + " not found!"));
         user.setPassword(passwordEncoder.encode(userData.getPassword().get()));
@@ -50,8 +50,7 @@ public class UserService {
         return mapper.map(user);
     }
 
-    void delete(Long id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
-
 }
