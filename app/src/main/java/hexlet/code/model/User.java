@@ -1,11 +1,12 @@
 package hexlet.code.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -27,8 +28,13 @@ public class User {
 
     private String lastName;
 
+    @NotNull
+    @Email(message = "Wrong email format!")
+    @Column(unique = true)
     private String email;
 
+    @NotNull
+    @Size(min=3,message = "Minimal password length is about 3 symbols!")
     private String password;
 
     @LastModifiedDate
