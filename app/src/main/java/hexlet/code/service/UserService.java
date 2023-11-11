@@ -44,7 +44,9 @@ public class UserService {
     public UserDTO update(UserUpdateDTO userData, Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with " + id + " not found!"));
-        user.setPassword(passwordEncoder.encode(userData.getPassword().get()));
+        if (userData.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(userData.getPassword().get()));
+        }
         mapper.update(userData, user);
         repository.save(user);
         return mapper.map(user);
