@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UsersControllerTest {
+public final class UsersControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -72,7 +72,7 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void testCreate() throws Exception{
+    public void testCreate() throws Exception {
         User user = new User();
         user.setFirstName(faker.name().firstName());
         user.setLastName(faker.name().lastName());

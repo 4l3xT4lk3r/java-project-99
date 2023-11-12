@@ -19,7 +19,7 @@ public class UserCreateDTO {
     private String lastName;
 
     @NotNull
-    @Size(min=3,message = "Minimal password length is about 3 symbols!")
+    @Size(min = 3, message = "Minimal password length is about 3 symbols!")
     private String password;
 
 }

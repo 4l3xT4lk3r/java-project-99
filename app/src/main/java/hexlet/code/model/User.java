@@ -1,6 +1,11 @@
 package hexlet.code.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -34,7 +39,7 @@ public class User {
     private String email;
 
     @NotNull
-    @Size(min=3,message = "Minimal password length is about 3 symbols!")
+    @Size(min = 3, message = "Minimal password length is about 3 symbols!")
     private String password;
 
     @LastModifiedDate

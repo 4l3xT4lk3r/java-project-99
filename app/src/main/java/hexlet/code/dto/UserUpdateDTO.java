@@ -16,6 +16,6 @@ public class UserUpdateDTO {
     private JsonNullable<String> firstName;
 
     private JsonNullable<String> lastName;
-    @Size(min=3,message = "Minimal password length is about 3 symbols!")
+    @Size(min = 3, message = "Minimal password length is about 3 symbols!")
     private JsonNullable<String> password;
 }
