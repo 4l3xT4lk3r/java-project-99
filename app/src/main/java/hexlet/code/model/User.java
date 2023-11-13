@@ -52,6 +52,8 @@ public class User implements UserDetails {
     @CreatedDate
     private LocalDate createdAt;
 
+    private UserRole role;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<GrantedAuthority>();

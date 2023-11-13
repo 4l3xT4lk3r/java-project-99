@@ -1,5 +1,6 @@
 package hexlet.code.config;
 
+import hexlet.code.model.UserRole;
 import hexlet.code.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,12 +13,15 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+
+import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
 @EnableWebSecurity
@@ -49,9 +53,12 @@ public class SecurityConfig {
             throws Exception {
         var mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
 
-        return http
-                .csrf(csrf -> csrf.disable())
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(toH2Console())
+                        .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"/welcome"))
                         .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"/api/login"))
@@ -61,8 +68,9 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer((rs) -> rs.jwt((jwt) -> jwt.decoder(jwtDecoder)))
-                .httpBasic(Customizer.withDefaults())
-                .build();
+                .httpBasic(Customizer.withDefaults());
+
+        return  http.build();
     }
 
 
