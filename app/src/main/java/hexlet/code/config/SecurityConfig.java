@@ -2,7 +2,8 @@ package hexlet.code.config;
 
 import hexlet.code.model.UserRole;
 import hexlet.code.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -25,14 +27,14 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled=true)
+@AllArgsConstructor
 public class SecurityConfig {
 
-    @Autowired
-    private JwtDecoder jwtDecoder;
-    @Autowired
-    private PasswordEncoder encoder;
+    private final JwtDecoder jwtDecoder;
 
-    @Autowired
+    private final PasswordEncoder encoder;
+
     private CustomUserDetailsService userDetailsService;
 
     @Bean
@@ -52,16 +54,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, HandlerMappingIntrospector introspector)
             throws Exception {
         var mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(toH2Console())
                         .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"/welcome"))
                         .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"/api/login"))
+                        .permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"/api/users"))
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -69,9 +72,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer((rs) -> rs.jwt((jwt) -> jwt.decoder(jwtDecoder)))
                 .httpBasic(Customizer.withDefaults());
-
         return  http.build();
     }
-
 
 }

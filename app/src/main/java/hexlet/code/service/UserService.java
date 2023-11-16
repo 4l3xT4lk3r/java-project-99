@@ -7,21 +7,21 @@ import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("UserService")
+@AllArgsConstructor
 public class UserService {
-    @Autowired
+
     private UserRepository repository;
 
-    @Autowired
     private UserMapper mapper;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public List<UserDTO> getAll() {
@@ -44,10 +44,10 @@ public class UserService {
     public UserDTO update(UserUpdateDTO userData, Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with " + id + " not found!"));
+        mapper.update(userData, user);
         if (userData.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(userData.getPassword().get()));
         }
-        mapper.update(userData, user);
         repository.save(user);
         return mapper.map(user);
     }
