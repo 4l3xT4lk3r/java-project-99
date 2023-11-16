@@ -1,6 +1,5 @@
 package hexlet.code.config;
 
-import hexlet.code.model.UserRole;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 
@@ -27,7 +26,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled=true)
+@EnableMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfig {
 
@@ -60,11 +59,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(toH2Console())
                         .permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET,"/welcome"))
+                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/welcome"))
                         .permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"/api/login"))
+                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/api/login"))
                         .permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST,"/api/users"))
+                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/api/users"))
                         .permitAll()
                         .anyRequest()
                         .authenticated()
@@ -72,7 +71,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer((rs) -> rs.jwt((jwt) -> jwt.decoder(jwtDecoder)))
                 .httpBasic(Customizer.withDefaults());
-        return  http.build();
+        return http.build();
     }
 
 }

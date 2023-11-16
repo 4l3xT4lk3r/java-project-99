@@ -3,15 +3,16 @@ package hexlet.code.controller;
 import hexlet.code.dto.AuthRequest;
 import hexlet.code.util.JWTUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class AuthenticationController {
     public ResponseEntity<String> create(@RequestBody AuthRequest authRequest) {
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    authRequest.getUsername(), authRequest.getPassword() );
+                    authRequest.getUsername(), authRequest.getPassword());
 
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             List<GrantedAuthority> authorities = new ArrayList<>(authentication.getAuthorities());
@@ -38,7 +39,7 @@ public class AuthenticationController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(token);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid/username password");
         }
     }
