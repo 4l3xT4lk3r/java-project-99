@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(toH2Console())
                         .permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/welcome"))
+                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/"))
                         .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/api/login"))
                         .permitAll()

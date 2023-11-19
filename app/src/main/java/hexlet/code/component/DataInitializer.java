@@ -24,25 +24,10 @@ public class DataInitializer implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         User user = new User();
-        user.setFirstName("Ellen");
-        user.setLastName("Ripley");
-        user.setEmail("e.ripley@weyland.com");
-        user.setPassword(encoder.encode("alien"));
-        user.setRole(UserRole.USER);
-        repository.save(user);
-
         user = new User();
         user.setEmail("hexlet@example.com");
         user.setPassword(encoder.encode("qwerty"));
         user.setRole(UserRole.ADMIN);
-        repository.save(user);
-
-        user = new User();
-        user.setFirstName("John");
-        user.setLastName("Wayne");
-        user.setEmail("j.wayne@hollywood.com");
-        user.setPassword(encoder.encode("western"));
-        user.setRole(UserRole.USER);
         repository.save(user);
     }
 }
