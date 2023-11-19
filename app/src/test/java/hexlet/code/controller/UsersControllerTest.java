@@ -4,12 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.AuthRequest;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
-import hexlet.code.model.UserRole;
 import hexlet.code.repository.UserRepository;
 import net.datafaker.Faker;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,18 +20,12 @@ import org.springframework.http.MediaType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-
-import java.beans.Encoder;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -137,6 +128,7 @@ public final class UsersControllerTest {
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.getContentAsString()).contains(testUser.getEmail());
     }
+
     @Test
     public void testUpdateOwnPage() throws Exception {
         User user = new User();
@@ -149,7 +141,7 @@ public final class UsersControllerTest {
                         .content(om.writeValueAsString(user))
         ).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(response.getContentAsString()).contains(user.getFirstName(),user.getLastName());
+        assertThat(response.getContentAsString()).contains(user.getFirstName(), user.getLastName());
     }
 
     @Test
