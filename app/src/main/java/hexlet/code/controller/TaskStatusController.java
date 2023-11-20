@@ -1,15 +1,14 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.user.UserCreateDTO;
-import hexlet.code.dto.user.UserDTO;
-import hexlet.code.dto.user.UserUpdateDTO;
-import hexlet.code.service.CustomUserDetailsService;
-import hexlet.code.service.UserService;
+
+import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
+import hexlet.code.dto.taskstatus.TaskStatusDTO;
+import hexlet.code.dto.taskstatus.TaskStatusUpdateDTO;
+import hexlet.code.service.TaskStatusService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,51 +21,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
-
 @RestController
 @AllArgsConstructor
-@RequestMapping(path = "/api/users")
-public class UserController {
+@RequestMapping(path = "/api/task_statuses")
+public class TaskStatusController {
 
-    private UserService service;
-
-    private CustomUserDetailsService customUserDetailsService;
+    private TaskStatusService service;
 
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public ResponseEntity<List<UserDTO>> index() {
-        List<UserDTO> list = service.getAll();
+    public ResponseEntity<List<TaskStatusDTO>> index() {
+        List<TaskStatusDTO> list = service.getAll();
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(list.size()))
                 .body(list);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO show(@PathVariable(name = "id") long id) {
+    public TaskStatusDTO show(@PathVariable(name = "id") long id) {
         return service.findById(id);
     }
 
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
-        return service.create(userData);
+    public TaskStatusDTO create(@Valid @RequestBody TaskStatusCreateDTO taskStatusData) {
+        return service.create(taskStatusData);
     }
 
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
-    public UserDTO update(@Valid @RequestBody UserUpdateDTO userData, @PathVariable long id) {
-        return service.update(userData, id);
+    public TaskStatusDTO update(@Valid @RequestBody TaskStatusUpdateDTO taskStatusData, @PathVariable long id) {
+        return service.update(taskStatusData, id);
     }
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
     public void delete(@PathVariable long id) {
         service.delete(id);
     }
-
 }
