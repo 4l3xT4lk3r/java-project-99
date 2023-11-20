@@ -5,6 +5,7 @@ import hexlet.code.dto.AuthRequest;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
+import hexlet.code.utils.UserUtil;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,12 +35,13 @@ public final class UsersControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private UserRepository repository;
-    @Autowired
     private Faker faker;
 
     @Autowired
     private UserMapper mapper;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -47,21 +49,22 @@ public final class UsersControllerTest {
     @Autowired
     private ObjectMapper om;
 
+    @Autowired
+    private UserUtil userUtil;
+
     private User testUser;
 
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
 
     private String plainPassword;
 
+
+
     @BeforeEach
     public void setUp() {
-        testUser = new User();
-        testUser.setFirstName(faker.name().firstName());
-        testUser.setLastName(faker.name().lastName());
-        testUser.setEmail(faker.internet().emailAddress());
-        plainPassword = faker.internet().password();
-        testUser.setPassword(encoder.encode(plainPassword));
-        repository.save(testUser);
+        testUser = userUtil.makeUser();
+        plainPassword = userUtil.getPlainPassword();
+        userRepository.save(testUser);
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
 
@@ -74,12 +77,8 @@ public final class UsersControllerTest {
 
     @Test
     public void testRegistration() throws Exception {
-        User user = new User();
-        user.setFirstName(faker.name().firstName());
-        user.setLastName(faker.name().lastName());
-        user.setEmail(faker.internet().emailAddress());
-        plainPassword = faker.internet().password();
-        user.setPassword(encoder.encode(plainPassword));
+        User user = userUtil.makeUser();
+        plainPassword = userUtil.getPlainPassword();
         MockHttpServletResponse response = mockMvc.perform(
                 post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +110,7 @@ public final class UsersControllerTest {
     }
 
     @Test
-    public void tesGetUsersPage() throws Exception {
+    public void testGetUsersPage() throws Exception {
         MockHttpServletResponse response = mockMvc.perform(
                 get("/api/users")
                         .with(token)
@@ -152,76 +151,4 @@ public final class UsersControllerTest {
         ).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(204);
     }
-
-
-//    public void testShow() throws Exception {
-//        mockMvc.perform(get("/api/users/{id}", testUser.getId()))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(om.writeValueAsString(mapper.map(testUser))));
-//    }
-
-//    @Test
-//    public void regUser() throws Exception {
-//        mockMvc.perform(
-//                get("/api/users")
-//                .with(token)
-//                )
-//                .andExpect(status().isOk());
-//    }
-//
-//    @Test
-//    public void testIndex() throws Exception {
-//        mockMvc.perform(get("/api/users"))
-//                .andExpect(status().isOk());
-//    }
-//
-//    @Test
-//    public void testShow() throws Exception {
-//        mockMvc.perform(get("/api/users/{id}", testUser.getId()))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(om.writeValueAsString(mapper.map(testUser))));
-//    }
-//
-//    @Test
-//    public void testCreate() throws Exception {
-//        User user = new User();
-//        user.setFirstName(faker.name().firstName());
-//        user.setLastName(faker.name().lastName());
-//        user.setEmail(faker.internet().emailAddress());
-//        user.setPassword(faker.internet().emailAddress());
-//
-//        MockHttpServletRequestBuilder request = post("/api/users")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(om.writeValueAsString(user));
-//        mockMvc.perform(request).andExpect(status().isCreated());
-//    }
-//
-//    @Test
-//    public void testUpdate() throws Exception {
-//        User user = new User();
-//        user.setFirstName(faker.name().firstName());
-//        user.setLastName(faker.name().lastName());
-//
-//        MockHttpServletRequestBuilder request = put("/api/users/{id}", testUser.getId())
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(om.writeValueAsString(user));
-//
-//        mockMvc.perform(request)
-//                .andExpect(status().isOk());
-//
-//        User actualUser = repository.findById(testUser.getId()).get();
-//
-//        assertThat(actualUser.getFirstName()).isEqualTo(user.getFirstName());
-//        assertThat(actualUser.getLastName()).isEqualTo(user.getLastName());
-//    }
-//
-//    @Test
-//    public void testDelete() throws Exception {
-//
-//        mockMvc.perform(delete("/api/users/{id}", testUser.getId()))
-//                .andExpect(status().isNoContent());
-//        assertThat(repository.findById(testUser.getId())).isEmpty();
-//    }
-
-
 }
