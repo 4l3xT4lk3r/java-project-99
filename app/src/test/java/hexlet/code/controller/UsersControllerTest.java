@@ -67,7 +67,7 @@ public final class UsersControllerTest {
 
     @Test
     public void testRootPage() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(get("/")).andReturn().getResponse();
+        MockHttpServletResponse response = mockMvc.perform(get("/welcome")).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.getContentAsString()).contains("Welcome to Spring!");
     }

@@ -8,6 +8,7 @@ import hexlet.code.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,13 +32,14 @@ public class UserController {
 
     private CustomUserDetailsService customUserDetailsService;
 
-
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
-    public List<UserDTO> index() {
-        return service.getAll();
-
+    public ResponseEntity<List<UserDTO>> index() {
+        List<UserDTO> list = service.getAll();
+        return ResponseEntity.ok()
+                .header("X-Total-Count", String.valueOf(list.size()))
+                .body(list);
     }
 
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")

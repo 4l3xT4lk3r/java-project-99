@@ -59,7 +59,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(toH2Console())
                         .permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/"))
+                        .requestMatchers(mvcMatcherBuilder.pattern("/"))
+                        .permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/index.html"))
+                        .permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern("/welcome"))
+                        .permitAll()
+                        .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.GET, "/assets/**"))
                         .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern(HttpMethod.POST, "/api/login"))
                         .permitAll()
@@ -73,5 +79,4 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
-
 }
