@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserUtil {
 
-
     @Autowired
     private Faker faker;
 

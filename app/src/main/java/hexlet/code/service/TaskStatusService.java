@@ -30,6 +30,13 @@ public class TaskStatusService {
         return mapper.map(taskStatus);
     }
 
+    public TaskStatusDTO findByName(String name) {
+        TaskStatus taskStatus = repository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("Task with " + name + " not found!"));
+        return mapper.map(taskStatus);
+    }
+
+
     public TaskStatusDTO create(TaskStatusCreateDTO taskStatusData) {
         TaskStatus taskStatus = mapper.map(taskStatusData);
         repository.save(taskStatus);
@@ -43,9 +50,17 @@ public class TaskStatusService {
         repository.save(taskStatus);
         return mapper.map(taskStatus);
     }
-
     public void delete(Long id) {
-        repository.deleteById(id);
+        TaskStatus taskStatus = repository.findById(id).orElse(null);
+        if (taskStatus != null) {
+            if (taskStatus.getTasks().isEmpty()) {
+                repository.deleteById(id);
+            } else {
+                throw new RuntimeException();
+            }
+        }
+
+
     }
 
 }

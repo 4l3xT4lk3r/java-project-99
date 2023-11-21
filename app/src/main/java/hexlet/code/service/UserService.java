@@ -52,6 +52,13 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        User user = repository.findById(id).orElse(null);
+        if (user != null) {
+            if (user.getTasks().isEmpty()) {
+                repository.deleteById(id);
+            } else {
+                throw new RuntimeException();
+            }
+        }
     }
 }

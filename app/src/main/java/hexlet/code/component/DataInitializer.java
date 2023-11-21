@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 
 @Component
 @AllArgsConstructor
@@ -26,12 +27,18 @@ public class DataInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        User user = new User();
-        user = new User();
-        user.setEmail("hexlet@example.com");
-        user.setPassword(encoder.encode("qwerty"));
-        user.setRole(UserRole.ADMIN);
-        userRepository.save(user);
+
+        List<Map<String, String>> users = List.of(
+                Map.of("email", "hexlet@example.com", "password", "qwerty", "role", "ADMIN"),
+                Map.of("email", "e.ripley@weyland.com", "password", "alien", "role", "USER"),
+                Map.of("email", "j.wayne@hollywood.com", "password", "western", "role", "USER"));
+        users.forEach((userData) -> {
+            User user = new User();
+            user.setEmail(userData.get("email"));
+            user.setPassword(encoder.encode(userData.get("password")));
+            user.setRole(userData.get("role").equals("ADMIN") ? UserRole.ADMIN : UserRole.USER);
+            userRepository.save(user);
+        });
 
         List<String> taskStatuses = List.of("draft", "to_review", "to_be_fixed", "to_publish", "published");
         taskStatuses.forEach(ts -> {

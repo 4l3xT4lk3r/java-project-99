@@ -63,10 +63,14 @@ public class UserController {
     }
 
     @DeleteMapping(path = "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
-    public void delete(@PathVariable long id) {
-        service.delete(id);
+    public ResponseEntity<String> delete(@PathVariable long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Cant delete - user have tasks!");
+        }
     }
 
 }
