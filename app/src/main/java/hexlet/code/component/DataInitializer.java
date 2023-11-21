@@ -1,10 +1,12 @@
 package hexlet.code.component;
 
+import hexlet.code.model.Label;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
 import hexlet.code.model.UserRole;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
+import hexlet.code.repository.LabelRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,6 +23,8 @@ public class DataInitializer implements ApplicationRunner {
     private UserRepository userRepository;
 
     private TaskStatusRepository taskStatusRepository;
+
+    private LabelRepository labelRepository;
 
     private PasswordEncoder encoder;
 
@@ -46,6 +50,13 @@ public class DataInitializer implements ApplicationRunner {
             t.setName(ts);
             t.setSlug(ts);
             taskStatusRepository.save(t);
+        });
+
+        List<String> labels = List.of("feature", "bug");
+        labels.forEach(label -> {
+            Label l = new Label();
+            l.setName(label);
+            labelRepository.save(l);
         });
     }
 }

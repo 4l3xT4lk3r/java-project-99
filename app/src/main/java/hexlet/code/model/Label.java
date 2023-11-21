@@ -1,9 +1,7 @@
 package hexlet.code.model;
 
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,31 +17,22 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "tasks")
-public class Task implements BaseEntity {
-
+@Table(name = "labels")
+public class Label {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(min = 1)
+    @Size(min = 3, max=1000)
     private String name;
-
-    private int index;
-
-    private String description;
-
-    @NotNull
-    @ManyToOne
-    private TaskStatus taskStatus;
-
-    @ManyToMany
-    private List<Label> labels;
-
-    @ManyToOne
-    private User assignee;
 
     @CreatedDate
     private LocalDate createdAt;
+
+    @ManyToMany
+    private List<Task> tasks;
+
+
+
 }
