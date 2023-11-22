@@ -4,3 +4,7 @@ spring:
     driverClassName: org.postgresql.Driver
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+sentry:
+  dsn: https://29bff40da20eaf4192bb0c8d86103fcd@o4506270180769792.ingest.sentry.io/4506270199644160
+  sentry.traces-sample-rate: 1.0
