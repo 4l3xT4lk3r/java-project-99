@@ -48,7 +48,10 @@ public abstract class TaskMapper {
         return taskStatusRepository.findByName(name).orElse(null);
     }
     public List<Long> map(List<Label> labels) {
-        return labels.stream().map(Label::getId).toList();
+        if ( labels != null){
+            return labels.stream().map(Label::getId).toList();
+        }
+        return null;
     }
 
 }
