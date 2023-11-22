@@ -5,6 +5,10 @@ import hexlet.code.dto.user.UserDTO;
 import hexlet.code.dto.user.UserUpdateDTO;
 import hexlet.code.service.CustomUserDetailsService;
 import hexlet.code.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,6 +36,9 @@ public class UserController {
 
     private CustomUserDetailsService customUserDetailsService;
 
+
+    @Operation(summary = "Get list of all users")
+    @ApiResponse(responseCode = "200", description = "List of all users")
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
@@ -42,29 +49,58 @@ public class UserController {
                 .body(list);
     }
 
+    @Operation(summary = "Get specific user by his id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found"),
+            @ApiResponse(responseCode = "404", description = "User with that id not found")
+    })
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO show(@PathVariable(name = "id") long id) {
+    public UserDTO show(
+            @Parameter(description = "Id of user to be found")
+            @PathVariable long id) {
         return service.findById(id);
     }
 
+    @Operation(summary = "Create new user")
+    @ApiResponse(responseCode = "201", description = "User created")
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(@Valid @RequestBody UserCreateDTO userData) {
+    public UserDTO create(
+            @Parameter(description = "User data to save")
+            @Valid
+            @RequestBody UserCreateDTO userData) {
         return service.create(userData);
     }
 
+    @Operation(summary = "Update user by his id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User updated"),
+            @ApiResponse(responseCode = "404", description = "User with that id not found")
+    })
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
-    public UserDTO update(@Valid @RequestBody UserUpdateDTO userData, @PathVariable long id) {
+    public UserDTO update(
+            @Parameter(description = "User data to update")
+            @Valid
+            @RequestBody UserUpdateDTO userData,
+            @Parameter(description = "Id of user to be updated")
+            @PathVariable long id) {
         return service.update(userData, id);
     }
 
+    @Operation(summary = "Delete user by his id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User deleted"),
+            @ApiResponse(responseCode = "404", description = "User with that id not found")
+    })
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
-    public ResponseEntity<String> delete(@PathVariable long id) {
+    public ResponseEntity<String> delete(
+            @Parameter(description = "Id of user to be deleted")
+            @PathVariable long id) {
         try {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
