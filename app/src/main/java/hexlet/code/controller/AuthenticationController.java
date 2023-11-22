@@ -2,6 +2,7 @@ package hexlet.code.controller;
 
 import hexlet.code.dto.AuthRequest;
 import hexlet.code.util.JWTUtils;
+import io.sentry.Sentry;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class AuthenticationController {
                     .status(HttpStatus.OK)
                     .body(token);
         } catch (Exception e) {
-            //throw new RuntimeException();
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid/username password");
         }
     }
