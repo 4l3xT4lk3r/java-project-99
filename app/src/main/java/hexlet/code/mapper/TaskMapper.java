@@ -7,7 +7,13 @@ import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mapping;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -21,8 +27,6 @@ import java.util.List;
 public abstract class TaskMapper {
     @Autowired
     private TaskStatusRepository taskStatusRepository;
-
-
     @Mapping(target = "assigneeId", source = "assignee.id")
     @Mapping(target = "status", source = "taskStatus.name")
     @Mapping(target = "title", source = "name")
@@ -47,12 +51,11 @@ public abstract class TaskMapper {
     public TaskStatus map(String name) {
         return taskStatusRepository.findByName(name).orElse(null);
     }
+
     public List<Long> map(List<Label> labels) {
-        if ( labels != null){
+        if (labels != null) {
             return labels.stream().map(Label::getId).toList();
         }
         return null;
     }
-
 }
-

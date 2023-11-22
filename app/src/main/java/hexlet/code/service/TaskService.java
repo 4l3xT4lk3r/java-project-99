@@ -15,8 +15,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class TaskService {
@@ -29,7 +27,7 @@ public class TaskService {
 
     public Page<TaskDTO> getAll(TaskParamsDTO params, int page) {
         Specification<Task> specification = specificationBuilder.build(params);
-        Page<Task> tasks = repository.findAll(specification, PageRequest.of(page-1,10));
+        Page<Task> tasks = repository.findAll(specification, PageRequest.of(page - 1, 10));
         return tasks.map(mapper::map);
     }
 
