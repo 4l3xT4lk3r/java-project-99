@@ -39,6 +39,7 @@ public class AuthenticationController {
                     .status(HttpStatus.OK)
                     .body(token);
         } catch (Exception e) {
+            //throw new RuntimeException();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid/username password");
         }
     }
