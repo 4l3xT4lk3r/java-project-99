@@ -20,4 +20,4 @@ rsa:
 
 springdoc:
   swagger-ui:
-    path: /docs/swagger-ui.html
+    path: /swagger-ui.html

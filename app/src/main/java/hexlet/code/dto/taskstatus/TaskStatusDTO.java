@@ -14,6 +14,6 @@ public class TaskStatusDTO {
 
     private String slug;
 
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private String createdAt;
 }

@@ -10,10 +10,7 @@ import java.time.LocalDate;
 @Getter
 public class LabelDTO {
     private Long id;
-
     private String name;
-
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
-
 }

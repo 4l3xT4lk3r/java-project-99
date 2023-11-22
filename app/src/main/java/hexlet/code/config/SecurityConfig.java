@@ -59,9 +59,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(toH2Console())
                         .permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern("/docs"))
+                        .requestMatchers(mvcMatcherBuilder.pattern("/swagger-ui.html"))
                         .permitAll()
-                        .requestMatchers(mvcMatcherBuilder.pattern("/docs/**"))
+                        .requestMatchers(mvcMatcherBuilder.pattern("/swagger-ui/**"))
                         .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("/v3/api-docs/swagger-config"))
                         .permitAll()
