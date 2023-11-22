@@ -53,10 +53,11 @@ tasks.named('bootBuildImage') {
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-sentry {
-    includeSourceContext = true
-    org = "nypd-xg"
-    projectName = "java-spring-boot"
-    authToken = System.getenv("SENTRY_AUTH_TOKEN")
+if (System.getenv("SENTRY_ENVIRONMENT") == "production") {
+    sentry {
+        includeSourceContext = true
+        org = "nypd-xg"
+        projectName = "java-spring-boot"
+        authToken = System.getenv("SENTRY_AUTH_TOKEN")
+    }
 }
