@@ -45,7 +45,14 @@ public class LabelService {
     }
 
     public void delete(Long id) {
-        repository.deleteById(id);
+        Label label = repository.findById(id).orElse(null);
+        if (label != null) {
+            if (label.getTasks().isEmpty()) {
+                repository.deleteById(id);
+            } else {
+                throw new RuntimeException();
+            }
+        }
     }
 
 }

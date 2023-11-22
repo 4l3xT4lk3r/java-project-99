@@ -87,24 +87,15 @@ public class LabelControllerTest {
     public void testUpdateLabel() throws Exception {
         LabelUpdateDTO labelData = new LabelUpdateDTO();
         labelData.setName(JsonNullable.of(faker.name().title()));
-
-        System.out.println("TEST LABEL NAME");
-        System.out.println(testLabel.getName());
-        System.out.println(testLabel.getId());
-        System.out.println("MAPPER");
-        System.out.println(om.writeValueAsString(labelData));
-
         MockHttpServletResponse response = mockMvc.perform(
                 put("/api/labels/" + testLabel.getId())
                         .with(token)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(om.writeValueAsString(labelData))
         ).andReturn().getResponse();
-        assertThat(response.getStatus()).isEqualTo(200);
 
-        System.out.println("RESPONSE");
-        System.out.println(response.getContentAsString());
-        System.out.println(om.writeValueAsString(testLabel));
+        assertThat(response.getStatus()).isEqualTo(200);
+        testLabel = labelRepository.findById(testLabel.getId()).orElse(null);
         assertThat(response.getContentAsString()).contains(testLabel.getName());
     }
 

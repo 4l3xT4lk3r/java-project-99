@@ -48,8 +48,14 @@ public class LabelController {
 
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long id) {
-        service.delete(id);
+    public ResponseEntity<String> delete(@PathVariable long id) {
+        try {
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("\"Cant delete - label status have tasks!\"");
+        }
+
     }
 
 }
