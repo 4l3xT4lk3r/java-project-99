@@ -17,6 +17,7 @@ import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper(
         uses = {JsonNullableMapper.class, ReferenceMapper.class},
@@ -52,7 +53,7 @@ public abstract class TaskMapper {
         return taskStatusRepository.findByName(name).orElse(null);
     }
 
-    public List<Long> map(List<Label> labels) {
+    public List<Long> map(Set<Label> labels) {
         if (labels != null) {
             return labels.stream().map(Label::getId).toList();
         }
