@@ -9,9 +9,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
-  h2:
-    console:
-      enabled: true
 
 rsa:
   private-key: classpath:certs/private.pem
