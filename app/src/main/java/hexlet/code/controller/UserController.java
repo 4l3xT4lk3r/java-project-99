@@ -40,8 +40,8 @@ public class UserController {
 
     @Operation(summary = "Get list of all users")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Show users"),
-            @ApiResponse(responseCode = "403", description = "No grants for show users")
+        @ApiResponse(responseCode = "200", description = "Show users"),
+        @ApiResponse(responseCode = "403", description = "No grants for show users")
     })
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
@@ -55,9 +55,9 @@ public class UserController {
 
     @Operation(summary = "Get specific user by his id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User found"),
-            @ApiResponse(responseCode = "403", description = "No grants for show user"),
-            @ApiResponse(responseCode = "404", description = "User with that id not found")
+        @ApiResponse(responseCode = "200", description = "User found"),
+        @ApiResponse(responseCode = "403", description = "No grants for show user"),
+        @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
     @GetMapping(path = "/{id}")
@@ -81,9 +81,9 @@ public class UserController {
 
     @Operation(summary = "Update user by his id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User updated"),
-            @ApiResponse(responseCode = "403", description = "No grants for user update"),
-            @ApiResponse(responseCode = "404", description = "User with that id not found")
+        @ApiResponse(responseCode = "200", description = "User updated"),
+        @ApiResponse(responseCode = "403", description = "No grants for user update"),
+        @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -99,9 +99,9 @@ public class UserController {
 
     @Operation(summary = "Delete user by his id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User deleted"),
-            @ApiResponse(responseCode = "403", description = "No grant to delete user"),
-            @ApiResponse(responseCode = "404", description = "User with that id not found")
+        @ApiResponse(responseCode = "200", description = "User deleted"),
+        @ApiResponse(responseCode = "403", description = "No grant to delete user"),
+        @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")

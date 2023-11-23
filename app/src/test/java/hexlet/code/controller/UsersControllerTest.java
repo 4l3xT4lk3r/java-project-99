@@ -9,7 +9,6 @@ import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.utils.UserUtil;
 import net.datafaker.Faker;
-import org.hibernate.sql.Update;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openapitools.jackson.nullable.JsonNullable;

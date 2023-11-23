@@ -33,8 +33,8 @@ public class AuthenticationController {
 
     @Operation(summary = "Authenticate and authorize user")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User authorized"),
-            @ApiResponse(responseCode = "401", description = "User no authorized")
+        @ApiResponse(responseCode = "200", description = "User authorized"),
+        @ApiResponse(responseCode = "401", description = "User no authorized")
     })
     @PostMapping(path = "/login")
     public ResponseEntity<String> auth(
