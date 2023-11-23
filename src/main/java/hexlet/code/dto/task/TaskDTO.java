@@ -3,6 +3,7 @@ package hexlet.code.dto.task;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +26,7 @@ public class TaskDTO {
 
     private String title;
 
+    @JsonInclude
     private String content;
 
     private String status;
