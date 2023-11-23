@@ -3,6 +3,7 @@ package hexlet.code.config;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -58,6 +59,8 @@ public class SecurityConfig {
                 .headers(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(toH2Console())
+                        .permitAll()
+                        .requestMatchers(PathRequest.toH2Console())
                         .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("/swagger-ui.html"))
                         .permitAll()
