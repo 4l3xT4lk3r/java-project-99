@@ -3,6 +3,10 @@ package hexlet.code.controller;
 import hexlet.code.dto.AuthRequest;
 import hexlet.code.util.JWTUtils;
 import io.sentry.Sentry;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +31,15 @@ public class AuthenticationController {
 
     private AuthenticationManager authenticationManager;
 
+    @Operation(summary = "Authenticate and authorize user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User authorized"),
+            @ApiResponse(responseCode = "401", description = "User no authorized")
+    })
     @PostMapping(path = "/login")
-    public ResponseEntity<String> auth(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<String> auth(
+            @Parameter(description = "User data for authorize")
+            @RequestBody AuthRequest authRequest) {
         try {
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     authRequest.getUsername(), authRequest.getPassword());

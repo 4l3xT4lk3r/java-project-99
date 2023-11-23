@@ -5,6 +5,7 @@ import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
 import hexlet.code.dto.taskstatus.TaskStatusDTO;
 import hexlet.code.dto.taskstatus.TaskStatusUpdateDTO;
 import hexlet.code.service.TaskStatusService;
+import io.sentry.Sentry;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -62,6 +63,7 @@ public class TaskStatusController {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Cant delete - task status have tasks!");
         }
     }

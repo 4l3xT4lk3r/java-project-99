@@ -4,6 +4,7 @@ import hexlet.code.dto.label.LabelCreateDTO;
 import hexlet.code.dto.label.LabelDTO;
 import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.service.LabelService;
+import io.sentry.Sentry;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,6 +62,7 @@ public class LabelController {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.CONFLICT).body("\"Cant delete - label status have tasks!\"");
         }
 

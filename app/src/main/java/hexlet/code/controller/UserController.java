@@ -5,6 +5,7 @@ import hexlet.code.dto.user.UserDTO;
 import hexlet.code.dto.user.UserUpdateDTO;
 import hexlet.code.service.CustomUserDetailsService;
 import hexlet.code.service.UserService;
+import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,7 +39,10 @@ public class UserController {
 
 
     @Operation(summary = "Get list of all users")
-    @ApiResponse(responseCode = "200", description = "List of all users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Show users"),
+            @ApiResponse(responseCode = "403", description = "No grants for show users")
+    })
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
@@ -51,8 +55,9 @@ public class UserController {
 
     @Operation(summary = "Get specific user by his id")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User found"),
-        @ApiResponse(responseCode = "404", description = "User with that id not found")
+            @ApiResponse(responseCode = "200", description = "User found"),
+            @ApiResponse(responseCode = "403", description = "No grants for show user"),
+            @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
     @GetMapping(path = "/{id}")
@@ -76,8 +81,9 @@ public class UserController {
 
     @Operation(summary = "Update user by his id")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User updated"),
-        @ApiResponse(responseCode = "404", description = "User with that id not found")
+            @ApiResponse(responseCode = "200", description = "User updated"),
+            @ApiResponse(responseCode = "403", description = "No grants for user update"),
+            @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -93,8 +99,9 @@ public class UserController {
 
     @Operation(summary = "Delete user by his id")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "User deleted"),
-        @ApiResponse(responseCode = "404", description = "User with that id not found")
+            @ApiResponse(responseCode = "200", description = "User deleted"),
+            @ApiResponse(responseCode = "403", description = "No grant to delete user"),
+            @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
@@ -105,6 +112,7 @@ public class UserController {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
+            Sentry.captureException(e);
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Cant delete - user have tasks!");
         }
     }

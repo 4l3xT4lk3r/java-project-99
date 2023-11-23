@@ -1,6 +1,7 @@
 package hexlet.code.utils;
 
 import hexlet.code.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.datafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
