@@ -45,7 +45,6 @@ public class UserController {
     })
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<List<UserDTO>> index() {
         List<UserDTO> list = service.getAll();
         return ResponseEntity.ok()
@@ -59,7 +58,7 @@ public class UserController {
         @ApiResponse(responseCode = "403", description = "No grants for show user"),
         @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
+    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail()")
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO show(
@@ -87,7 +86,7 @@ public class UserController {
     })
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
+    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail()")
     public UserDTO update(
             @Parameter(description = "User data to update")
             @Valid
@@ -104,7 +103,7 @@ public class UserController {
         @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN') || authentication.getName() == @UserService.findById(#id).getEmail()")
+    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail()")
     public ResponseEntity<String> delete(
             @Parameter(description = "Id of user to be deleted")
             @PathVariable long id) {

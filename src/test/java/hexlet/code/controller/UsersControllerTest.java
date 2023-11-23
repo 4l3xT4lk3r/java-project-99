@@ -125,7 +125,7 @@ public final class UsersControllerTest {
                 get("/api/users")
                         .with(token)
         ).andReturn().getResponse();
-        assertThat(response.getStatus()).isEqualTo(403);
+        assertThat(response.getStatus()).isEqualTo(200);
     }
 
     @Test
