@@ -63,7 +63,7 @@ public class User implements UserDetails, BaseEntity {
     @JsonIgnore
     private UserRole role = UserRole.USER;
 
-    @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "assignee")
     @JsonIgnore
     private List<Task> tasks = new ArrayList<>();
 
