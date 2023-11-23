@@ -6,15 +6,15 @@ RUN apt-get update && apt-get install -yq make unzip
 
 WORKDIR /app
 
-COPY /app/config config
-COPY /app/gradle gradle
-COPY /app/build.gradle .
-COPY /app/settings.gradle .
-COPY /app/gradlew .
+COPY /config config
+COPY /gradle gradle
+COPY /build.gradle .
+COPY /settings.gradle .
+COPY /gradlew .
 
 RUN ./gradlew --no-daemon dependencies
 
-COPY /app/src src
+COPY /src src
 
 RUN ./gradlew --no-daemon build
 
