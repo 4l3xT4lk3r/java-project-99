@@ -34,15 +34,15 @@ public class Task implements BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 1)
+    @NotBlank(message = "Task name is required!")
+    @Size(min = 1, message = "Minimal length name is 1!")
     private String name;
 
     private int index;
 
     private String description;
 
-    @NotNull
+    @NotNull(message = "Task status is required!")
     @ManyToOne
     private TaskStatus taskStatus;
 

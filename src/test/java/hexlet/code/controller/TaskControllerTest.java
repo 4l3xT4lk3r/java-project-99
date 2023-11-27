@@ -1,8 +1,7 @@
 package hexlet.code.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.dto.task.TaskCreateDTO;
-import hexlet.code.dto.task.TaskDTO;
+import hexlet.code.dto.TaskDTO;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
@@ -13,6 +12,7 @@ import hexlet.code.utils.UserUtil;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openapitools.jackson.nullable.JsonNullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -101,8 +101,8 @@ public class TaskControllerTest {
     @Test
     public void testUpdateTask() throws Exception {
         TaskDTO task = new TaskDTO();
-        task.setTitle(faker.name().name());
-        task.setId(3L);
+        task.setTitle(JsonNullable.of(faker.name().name()));
+        task.setId(JsonNullable.of(3L));
 
         MockHttpServletResponse response = mockMvc.perform(
                 put("/api/tasks/" + testTask.getId())
@@ -111,7 +111,7 @@ public class TaskControllerTest {
                         .content(om.writeValueAsString(task))
         ).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(response.getContentAsString()).contains(task.getTitle());
+        assertThat(response.getContentAsString()).contains(task.getTitle().get());
     }
 
     @Test
@@ -131,9 +131,9 @@ public class TaskControllerTest {
 
     @Test
     public void testCreateTask() throws Exception {
-        TaskCreateDTO task = new TaskCreateDTO();
-        task.setTitle(faker.name().title());
-        task.setStatus("draft");
+        TaskDTO task = new TaskDTO();
+        task.setTitle(JsonNullable.of(faker.name().title()));
+        task.setStatus(JsonNullable.of("draft"));
         MockHttpServletResponse response = mockMvc.perform(
                 post("/api/tasks")
                         .with(token)
@@ -141,6 +141,6 @@ public class TaskControllerTest {
                         .content(om.writeValueAsString(task))
         ).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(201);
-        assertThat(response.getContentAsString()).contains(task.getTitle());
+        assertThat(response.getContentAsString()).contains(task.getTitle().get());
     }
 }
