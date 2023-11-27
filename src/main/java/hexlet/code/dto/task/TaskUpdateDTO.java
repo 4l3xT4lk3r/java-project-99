@@ -17,13 +17,10 @@ public class TaskUpdateDTO {
     @JsonAlias("assignee_id")
     private JsonNullable<Long> assigneeId;
 
-    @NotBlank
-    @Size(min = 1)
     private JsonNullable<String> title;
 
     private JsonNullable<String> content;
 
-    @NotBlank
     private JsonNullable<String> status;
 
     private List<JsonNullable<Long>> taskLabelIds;

@@ -17,13 +17,11 @@ public class TaskCreateDTO {
     @JsonAlias("assignee_id")
     private Long assigneeId;
 
-    @NotBlank
-    @Size(min = 1)
     private String title;
 
     private String content;
 
-    @NotBlank
+
     private String status;
 
     private List<Long> taskLabelIds;

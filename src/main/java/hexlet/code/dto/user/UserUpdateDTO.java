@@ -10,12 +10,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @Setter
 public class UserUpdateDTO {
 
-    @Email(message = "Wrong email format!")
     private JsonNullable<String> email;
 
     private JsonNullable<String> firstName;
 
     private JsonNullable<String> lastName;
-    @Size(min = 3, message = "Minimal password length is about 3 symbols!")
+
     private JsonNullable<String> password;
 }

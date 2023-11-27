@@ -9,11 +9,7 @@ import lombok.Setter;
 @Setter
 public class TaskStatusCreateDTO {
 
-    @NotBlank
-    @Size(min = 1)
     private String name;
 
-    @NotBlank
-    @Size(min = 1)
     private String slug;
 }

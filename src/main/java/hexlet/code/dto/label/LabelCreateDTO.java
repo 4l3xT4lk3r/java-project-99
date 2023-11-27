@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LabelCreateDTO {
-    @NotBlank
-    @Size(min = 2, max = 1000)
+
     private String name;
 }

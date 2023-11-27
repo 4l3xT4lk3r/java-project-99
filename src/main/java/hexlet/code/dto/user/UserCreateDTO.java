@@ -10,16 +10,12 @@ import lombok.Setter;
 @Setter
 public class UserCreateDTO {
 
-    @NotNull
-    @Email(message = "Wrong email format!")
     private String email;
 
     private String firstName;
 
     private String lastName;
 
-    @NotNull
-    @Size(min = 3, message = "Minimal password length is about 3 symbols!")
     private String password;
 
 }
