@@ -106,7 +106,7 @@ public final class UsersControllerTest {
     public void tesGetForeignPage() throws Exception {
         MockHttpServletResponse response = mockMvc.perform(
                 get("/api/users/1")
-                        .with(token)
+                        .with(jwt())
         ).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(403);
     }
@@ -115,7 +115,7 @@ public final class UsersControllerTest {
     public void testGetUsers() throws Exception {
         MockHttpServletResponse response = mockMvc.perform(
                 get("/api/users")
-                        .with(token)
+                        .with(jwt())
         ).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(200);
     }
