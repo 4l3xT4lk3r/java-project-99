@@ -41,7 +41,6 @@ public class LabelService {
     }
 
     public void delete(Long id) {
-        Label label = repository.findById(id).orElseThrow();
         repository.deleteById(id);
     }
 }

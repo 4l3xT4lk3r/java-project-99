@@ -1,13 +1,13 @@
 package hexlet.code.mapper;
 
-import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
-import hexlet.code.dto.taskstatus.TaskStatusDTO;
-import hexlet.code.dto.taskstatus.TaskStatusUpdateDTO;
+import hexlet.code.dto.TaskStatusDTO;
 import hexlet.code.model.TaskStatus;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
+import org.mapstruct.Mapping;
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.MappingTarget;
 
 @Mapper(
@@ -17,7 +17,10 @@ import org.mapstruct.MappingTarget;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public abstract class TaskStatusMapper {
-    public abstract TaskStatus map(TaskStatusCreateDTO taskStatusData);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    public abstract TaskStatus map(TaskStatusDTO taskStatusData);
     public abstract TaskStatusDTO map(TaskStatus taskStatus);
-    public abstract void update(TaskStatusUpdateDTO taskStatusData, @MappingTarget TaskStatus taskStatus);
+    @InheritConfiguration
+    public abstract void update(TaskStatusDTO taskStatusData, @MappingTarget TaskStatus taskStatus);
 }

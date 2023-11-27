@@ -29,13 +29,13 @@ public class TaskStatus implements BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 1)
+    @NotBlank(message = "Name is required!")
+    @Size(min = 1, message = "Min name length = 1!")
     @Column(unique = true)
     private String name;
 
-    @NotBlank
-    @Size(min = 1)
+    @NotBlank(message = "Slug is required!")
+    @Size(min = 1, message = "Min slug length = 1!")
     @Column(unique = true)
     private String slug;
 

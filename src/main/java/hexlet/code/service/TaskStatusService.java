@@ -1,9 +1,7 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.taskstatus.TaskStatusCreateDTO;
-import hexlet.code.dto.taskstatus.TaskStatusDTO;
-import hexlet.code.dto.taskstatus.TaskStatusUpdateDTO;
-import hexlet.code.exception.ResourceNotFoundException;
+
+import hexlet.code.dto.TaskStatusDTO;
 import hexlet.code.mapper.TaskStatusMapper;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.repository.TaskStatusRepository;
@@ -25,42 +23,27 @@ public class TaskStatusService {
     }
 
     public TaskStatusDTO findById(Long id) {
-        TaskStatus taskStatus = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task status with " + id + " not found!"));
+        TaskStatus taskStatus = repository.findById(id).orElseThrow();
         return mapper.map(taskStatus);
     }
 
     public TaskStatusDTO findByName(String name) {
-        TaskStatus taskStatus = repository.findByName(name)
-                .orElseThrow(() -> new ResourceNotFoundException("Task with " + name + " not found!"));
+        TaskStatus taskStatus = repository.findByName(name).orElseThrow();
         return mapper.map(taskStatus);
     }
-
-
-    public TaskStatusDTO create(TaskStatusCreateDTO taskStatusData) {
+    public TaskStatusDTO create(TaskStatusDTO taskStatusData) {
         TaskStatus taskStatus = mapper.map(taskStatusData);
         repository.save(taskStatus);
         return mapper.map(taskStatus);
     }
-
-    public TaskStatusDTO update(TaskStatusUpdateDTO taskStatusData, Long id) {
-        TaskStatus taskStatus = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task status with " + id + " not found!"));
+    public TaskStatusDTO update(TaskStatusDTO taskStatusData, Long id) {
+        TaskStatus taskStatus = repository.findById(id).orElseThrow();
         mapper.update(taskStatusData, taskStatus);
         repository.save(taskStatus);
         return mapper.map(taskStatus);
     }
     public void delete(Long id) {
-        TaskStatus taskStatus = repository.findById(id).orElse(null);
-        if (taskStatus != null) {
-            if (taskStatus.getTasks().isEmpty()) {
-                repository.deleteById(id);
-            } else {
-                throw new RuntimeException();
-            }
-        }
-
-
+        repository.deleteById(id);
     }
 
 }
