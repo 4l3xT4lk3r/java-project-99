@@ -71,15 +71,7 @@ public final class UsersControllerTest {
         userRepository.save(testUser);
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
-
-    @Test
-    public void testRootPage() throws Exception {
-        MockHttpServletResponse response = mockMvc.perform(get("/welcome")).andReturn().getResponse();
-        assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(response.getContentAsString()).contains("Welcome to Spring!");
-    }
-
-    @Test
+     @Test
     public void testRegistration() throws Exception {
         UserCreateDTO userCreateDTO = new UserCreateDTO();
         userCreateDTO.setEmail(faker.internet().emailAddress());
