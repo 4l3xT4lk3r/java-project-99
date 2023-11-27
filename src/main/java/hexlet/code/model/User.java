@@ -8,8 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -58,18 +56,9 @@ public class User implements UserDetails, BaseEntity {
     @CreatedDate
     private LocalDate createdAt;
 
-    @Enumerated(value = EnumType.STRING)
-    @JsonIgnore
-    private UserRole role = UserRole.USER;
-
     @OneToMany(mappedBy = "assignee")
     @JsonIgnore
     private List<Task> tasks = new ArrayList<>();
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
 
     @Override
     public String getUsername() {
@@ -94,5 +83,10 @@ public class User implements UserDetails, BaseEntity {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<GrantedAuthority>();
     }
 }

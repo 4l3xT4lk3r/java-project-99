@@ -55,10 +55,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
-//                        .requestMatchers(toH2Console())
-//                        .permitAll()
-//                        .requestMatchers(PathRequest.toH2Console())
-//                        .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("/swagger-ui.html"))
                         .permitAll()
                         .requestMatchers(mvcMatcherBuilder.pattern("/swagger-ui/**"))

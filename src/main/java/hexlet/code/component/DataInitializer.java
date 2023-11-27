@@ -3,7 +3,6 @@ package hexlet.code.component;
 import hexlet.code.model.Label;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
-import hexlet.code.model.UserRole;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.repository.LabelRepository;
@@ -33,14 +32,13 @@ public class DataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         List<Map<String, String>> users = List.of(
-                Map.of("email", "hexlet@example.com", "password", "qwerty", "role", "ADMIN"),
-                Map.of("email", "e.ripley@weyland.com", "password", "alien", "role", "USER"),
-                Map.of("email", "j.wayne@hollywood.com", "password", "western", "role", "USER"));
+                Map.of("email", "hexlet@example.com", "password", "qwerty" ),
+                Map.of("email", "e.ripley@weyland.com", "password", "alien"),
+                Map.of("email", "j.wayne@hollywood.com", "password", "western"));
         users.forEach((userData) -> {
             User user = new User();
             user.setEmail(userData.get("email"));
             user.setPassword(encoder.encode(userData.get("password")));
-            user.setRole(userData.get("role").equals("ADMIN") ? UserRole.ADMIN : UserRole.USER);
             userRepository.save(user);
         });
 
