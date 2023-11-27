@@ -72,7 +72,7 @@ public class UserController {
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO create(
-            @Parameter(description = "User data to save")
+            @Parameter(description = "User data to create")
             @Valid
             @RequestBody UserCreateDTO userData) {
         return service.create(userData);

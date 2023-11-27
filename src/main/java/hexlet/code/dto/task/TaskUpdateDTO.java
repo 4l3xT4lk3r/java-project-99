@@ -1,8 +1,6 @@
 package hexlet.code.dto.task;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.jackson.nullable.JsonNullable;

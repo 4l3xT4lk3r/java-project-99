@@ -32,7 +32,7 @@ public class DataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         List<Map<String, String>> users = List.of(
-                Map.of("email", "hexlet@example.com", "password", "qwerty" ),
+                Map.of("email", "hexlet@example.com", "password", "qwerty"),
                 Map.of("email", "e.ripley@weyland.com", "password", "alien"),
                 Map.of("email", "j.wayne@hollywood.com", "password", "western"));
         users.forEach((userData) -> {

@@ -1,16 +1,17 @@
-package hexlet.code.dto.label;
+package hexlet.code.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import java.time.LocalDate;
 
 @Setter
 @Getter
 public class LabelDTO {
-    private Long id;
-    private String name;
+    private JsonNullable<Long> id;
+    private JsonNullable<String> name;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createdAt;
+    private JsonNullable<LocalDate> createdAt;
 }

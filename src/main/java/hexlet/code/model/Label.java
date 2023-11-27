@@ -29,8 +29,8 @@ public class Label implements BaseEntity {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(min = 3, max = 1000)
+    @NotBlank(message = "Required label name!")
+    @Size(min = 3, max = 1000, message = "Wrong label name size! Min length 3, Max length 1000.")
     private String name;
 
     @CreatedDate

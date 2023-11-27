@@ -1,9 +1,8 @@
 package hexlet.code.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hexlet.code.dto.label.LabelCreateDTO;
+import hexlet.code.dto.LabelDTO;
 import hexlet.code.model.Label;
-import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.model.User;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.UserRepository;
@@ -88,7 +87,7 @@ public class LabelControllerTest {
 
     @Test
     public void testUpdateLabel() throws Exception {
-        LabelUpdateDTO labelData = new LabelUpdateDTO();
+        LabelDTO labelData = new LabelDTO();
         labelData.setName(JsonNullable.of(faker.name().title()));
         MockHttpServletResponse response = mockMvc.perform(
                 put("/api/labels/" + testLabel.getId())
@@ -119,8 +118,8 @@ public class LabelControllerTest {
 
     @Test
     public void testCreateLabel() throws Exception {
-        LabelCreateDTO label = new LabelCreateDTO();
-        label.setName(faker.name().title());
+        LabelDTO label = new LabelDTO();
+        label.setName(JsonNullable.of(faker.name().title()));
         MockHttpServletResponse response = mockMvc.perform(
                 post("/api/labels")
                         .with(token)
@@ -128,6 +127,6 @@ public class LabelControllerTest {
                         .content(om.writeValueAsString(label))
         ).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(201);
-        assertThat(response.getContentAsString()).contains(label.getName());
+        assertThat(response.getContentAsString()).contains(label.getName().get());
     }
 }

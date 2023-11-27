@@ -1,13 +1,11 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.label.LabelCreateDTO;
-import hexlet.code.dto.label.LabelDTO;
-import hexlet.code.dto.label.LabelUpdateDTO;
-import hexlet.code.exception.ResourceNotFoundException;
+import hexlet.code.dto.LabelDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import lombok.AllArgsConstructor;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,34 +23,25 @@ public class LabelService {
     }
 
     public LabelDTO findById(Long id) {
-        Label label = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Label with " + id + " not found!"));
+        Label label = repository.findById(id).orElseThrow();
         return mapper.map(label);
     }
 
-    public LabelDTO create(LabelCreateDTO labelData) {
+    public LabelDTO create(LabelDTO labelData) {
         Label label = mapper.map(labelData);
         repository.save(label);
         return mapper.map(label);
     }
 
-    public LabelDTO update(LabelUpdateDTO labelData, Long id) {
-        Label label = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Label with " + id + " not found!"));
+    public LabelDTO update(LabelDTO labelData, Long id) {
+        Label label = repository.findById(id).orElseThrow();
         mapper.update(labelData, label);
         repository.save(label);
         return mapper.map(label);
     }
 
     public void delete(Long id) {
-        Label label = repository.findById(id).orElse(null);
-        if (label != null) {
-            if (label.getTasks().isEmpty()) {
-                repository.deleteById(id);
-            } else {
-                throw new RuntimeException();
-            }
-        }
+        Label label = repository.findById(id).orElseThrow();
+        repository.deleteById(id);
     }
-
 }

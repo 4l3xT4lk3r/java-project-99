@@ -71,7 +71,7 @@ public final class UsersControllerTest {
         userRepository.save(testUser);
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
-     @Test
+    @Test
     public void testRegistration() throws Exception {
         UserCreateDTO userCreateDTO = new UserCreateDTO();
         userCreateDTO.setEmail(faker.internet().emailAddress());
