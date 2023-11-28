@@ -34,8 +34,6 @@ public abstract class TaskMapper {
     @Mapping(target = "title", source = "name")
     @Mapping(target = "content", source = "description")
     @Mapping(target = "taskLabelIds", source = "labels")
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
     public abstract TaskDTO map(Task task);
 
     @Mapping(target = "assignee", source = "assigneeId")
