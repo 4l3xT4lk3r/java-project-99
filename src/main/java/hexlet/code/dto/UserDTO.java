@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.openapitools.jackson.nullable.JsonNullable;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 public class UserDTO {
@@ -20,6 +22,6 @@ public class UserDTO {
     private JsonNullable<String> password;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private JsonNullable<String> createdAt;
+    private JsonNullable<LocalDate> createdAt;
 
 }
