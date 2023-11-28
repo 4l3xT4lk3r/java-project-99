@@ -2,8 +2,7 @@ package hexlet.code.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.AuthRequest;
-import hexlet.code.dto.user.UserCreateDTO;
-import hexlet.code.dto.user.UserUpdateDTO;
+import hexlet.code.dto.UserDTO;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
 import hexlet.code.repository.UserRepository;
@@ -71,21 +70,22 @@ public final class UsersControllerTest {
         userRepository.save(testUser);
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
     }
+
     @Test
     public void testRegistration() throws Exception {
-        UserCreateDTO userCreateDTO = new UserCreateDTO();
-        userCreateDTO.setEmail(faker.internet().emailAddress());
-        userCreateDTO.setPassword(encoder.encode(faker.internet().password()));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail(JsonNullable.of(faker.internet().emailAddress()));
+        userDTO.setPassword(JsonNullable.of(encoder.encode(faker.internet().password())));
         MockHttpServletResponse response = mockMvc.perform(
                 post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(om.writeValueAsString(userCreateDTO))
+                        .content(om.writeValueAsString(userDTO))
         ).andReturn().getResponse();
         assertThat(response.getStatus()).isEqualTo(201);
 
-        Optional<User> user = userRepository.findByEmail(userCreateDTO.getEmail());
+        Optional<User> user = userRepository.findByEmail(userDTO.getEmail().get());
         assertThat(user).isNotNull();
-        assertThat(user.get().getEmail()).isEqualTo(userCreateDTO.getEmail());
+        assertThat(user.get().getEmail()).isEqualTo(userDTO.getEmail().get());
     }
 
 
@@ -132,7 +132,7 @@ public final class UsersControllerTest {
 
     @Test
     public void testUpdateOwnPage() throws Exception {
-        UserUpdateDTO userData = new UserUpdateDTO();
+        UserDTO userData = new UserDTO();
         userData.setFirstName(JsonNullable.of(faker.name().firstName()));
         userData.setLastName(JsonNullable.of(faker.name().lastName()));
         MockHttpServletResponse response = mockMvc.perform(

@@ -1,8 +1,6 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.user.UserCreateDTO;
-import hexlet.code.dto.user.UserDTO;
-import hexlet.code.dto.user.UserUpdateDTO;
+import hexlet.code.dto.UserDTO;
 import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
@@ -28,19 +26,18 @@ public class UserService {
     }
 
     public UserDTO findById(Long id) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User with " + id + " not found!"));
+        User user = repository.findById(id).orElseThrow();
         return mapper.map(user);
     }
 
-    public UserDTO create(UserCreateDTO userData) {
+    public UserDTO create(UserDTO userData) {
         User user = mapper.map(userData);
-        user.setPassword(passwordEncoder.encode(userData.getPassword()));
+        user.setPassword(passwordEncoder.encode(userData.getPassword().get()));
         repository.save(user);
         return mapper.map(user);
     }
 
-    public UserDTO update(UserUpdateDTO userData, Long id) {
+    public UserDTO update(UserDTO userData, Long id) {
         User user = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with " + id + " not found!"));
         mapper.update(userData, user);
@@ -52,13 +49,6 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        User user = repository.findById(id).orElse(null);
-        if (user != null) {
-            if (user.getTasks().isEmpty()) {
-                repository.deleteById(id);
-            } else {
-                throw new RuntimeException();
-            }
-        }
+        repository.deleteById(id);
     }
 }

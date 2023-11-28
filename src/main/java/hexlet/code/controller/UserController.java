@@ -1,11 +1,8 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.user.UserCreateDTO;
-import hexlet.code.dto.user.UserDTO;
-import hexlet.code.dto.user.UserUpdateDTO;
+import hexlet.code.dto.UserDTO;
 import hexlet.code.service.CustomUserDetailsService;
 import hexlet.code.service.UserService;
-import io.sentry.Sentry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,7 +34,6 @@ public class UserController {
 
     private CustomUserDetailsService customUserDetailsService;
 
-
     @Operation(summary = "Get list of all users")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Show users"),
@@ -58,7 +54,7 @@ public class UserController {
         @ApiResponse(responseCode = "403", description = "No grants for show user"),
         @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
-    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail()")
+    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail().get()")
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     public UserDTO show(
@@ -74,7 +70,7 @@ public class UserController {
     public UserDTO create(
             @Parameter(description = "User data to create")
             @Valid
-            @RequestBody UserCreateDTO userData) {
+            @RequestBody UserDTO userData) {
         return service.create(userData);
     }
 
@@ -86,11 +82,11 @@ public class UserController {
     })
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail()")
+    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail().get()")
     public UserDTO update(
             @Parameter(description = "User data to update")
             @Valid
-            @RequestBody UserUpdateDTO userData,
+            @RequestBody UserDTO userData,
             @Parameter(description = "Id of user to be updated")
             @PathVariable long id) {
         return service.update(userData, id);
@@ -103,17 +99,13 @@ public class UserController {
         @ApiResponse(responseCode = "404", description = "User with that id not found")
     })
     @DeleteMapping(path = "/{id}")
-    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail()")
+    @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail().get()")
     public ResponseEntity<String> delete(
             @Parameter(description = "Id of user to be deleted")
             @PathVariable long id) {
-        try {
-            service.delete(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (Exception e) {
-            Sentry.captureException(e);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Cant delete - user have tasks!");
-        }
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
     }
 
 }

@@ -1,13 +1,13 @@
 package hexlet.code.mapper;
 
-import hexlet.code.dto.user.UserCreateDTO;
-import hexlet.code.dto.user.UserDTO;
-import hexlet.code.dto.user.UserUpdateDTO;
+import hexlet.code.dto.UserDTO;
 import hexlet.code.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
+import org.mapstruct.Mapping;
+import org.mapstruct.InheritConfiguration;
 import org.mapstruct.MappingTarget;
 
 @Mapper(
@@ -17,7 +17,11 @@ import org.mapstruct.MappingTarget;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public abstract class UserMapper {
-    public abstract User map(UserCreateDTO userData);
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    public abstract User map(UserDTO userData);
+    @Mapping(target = "password", ignore = true)
     public abstract UserDTO map(User user);
-    public abstract void update(UserUpdateDTO userData, @MappingTarget User user);
+    @InheritConfiguration
+    public abstract void update(UserDTO userData, @MappingTarget User user);
 }

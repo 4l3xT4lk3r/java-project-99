@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Column;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,12 +40,12 @@ public class User implements UserDetails, BaseEntity {
 
     private String lastName;
 
-    @NotNull
+    @NotBlank(message = "Email is required!")
     @Email(message = "Wrong email format!")
     @Column(unique = true)
     private String email;
 
-    @NotNull
+    @NotBlank(message = "Password is required!")
     @Size(min = 3, message = "Minimal password length is about 3 symbols!")
     private String password;
 
