@@ -37,7 +37,7 @@ public class TaskStatusController {
     })
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<TaskStatusDTO>> index() {
+    public ResponseEntity<List<TaskStatusDTO>> getAllTaskStatuses() {
         List<TaskStatusDTO> list = service.getAll();
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(list.size()))
@@ -53,7 +53,7 @@ public class TaskStatusController {
     })
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskStatusDTO show(
+    public TaskStatusDTO getTaskStatusById(
             @Parameter(description = "Id of task status to be found")
             @PathVariable(name = "id") long id) {
         return service.findById(id);
@@ -67,7 +67,7 @@ public class TaskStatusController {
     })
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskStatusDTO create(
+    public TaskStatusDTO createTaskStatusById(
             @Parameter(description = "Data to create task status")
             @Valid
             @RequestBody TaskStatusDTO taskStatusData) {
@@ -82,7 +82,7 @@ public class TaskStatusController {
     })
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskStatusDTO update(
+    public TaskStatusDTO updateTaskStatusById(
             @Parameter(description = "Data for updating task status")
             @Valid
             @RequestBody TaskStatusDTO taskStatusData,
@@ -100,7 +100,7 @@ public class TaskStatusController {
     })
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long id) {
+    public void deleteTaskStatusById(@PathVariable long id) {
         service.delete(id);
     }
 }

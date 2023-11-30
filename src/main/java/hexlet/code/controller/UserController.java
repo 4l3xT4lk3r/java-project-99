@@ -41,7 +41,7 @@ public class UserController {
     })
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<UserDTO>> index() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<UserDTO> list = service.getAll();
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(list.size()))
@@ -57,7 +57,7 @@ public class UserController {
     @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail().get()")
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UserDTO show(
+    public UserDTO getUserById(
             @Parameter(description = "Id of user to be found")
             @PathVariable long id) {
         return service.findById(id);
@@ -67,7 +67,7 @@ public class UserController {
     @ApiResponse(responseCode = "201", description = "User created")
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDTO create(
+    public UserDTO createUserById(
             @Parameter(description = "User data to create")
             @Valid
             @RequestBody UserDTO userData) {
@@ -83,7 +83,7 @@ public class UserController {
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail().get()")
-    public UserDTO update(
+    public UserDTO updateUserById(
             @Parameter(description = "User data to update")
             @Valid
             @RequestBody UserDTO userData,
@@ -101,7 +101,7 @@ public class UserController {
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail().get()")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(
+    public void deleteUserById(
             @Parameter(description = "Id of user to be deleted")
             @PathVariable long id) {
         service.delete(id);

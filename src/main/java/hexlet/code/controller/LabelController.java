@@ -36,7 +36,7 @@ public class LabelController {
     })
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<LabelDTO>> index() {
+    public ResponseEntity<List<LabelDTO>> getAllLabels() {
         List<LabelDTO> list = service.getAll();
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(list.size()))
@@ -52,7 +52,7 @@ public class LabelController {
     })
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public LabelDTO show(
+    public LabelDTO getLabelById(
             @Parameter(description = "Id of label to be found")
             @PathVariable long id) {
         return service.findById(id);
@@ -66,7 +66,7 @@ public class LabelController {
     })
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public LabelDTO create(
+    public LabelDTO createLabel(
             @Parameter(description = "Data to create label")
             @Valid
             @RequestBody LabelDTO labelData) {
@@ -81,7 +81,7 @@ public class LabelController {
     })
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public LabelDTO update(
+    public LabelDTO updateLabelById(
             @Parameter(description = "Data for updating label")
             @Valid
             @RequestBody LabelDTO labelData,
@@ -99,7 +99,7 @@ public class LabelController {
     })
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> delete(@PathVariable long id) {
+    public ResponseEntity<String> deleteLabelById(@PathVariable long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 

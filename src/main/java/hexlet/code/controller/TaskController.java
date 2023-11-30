@@ -39,7 +39,7 @@ public class TaskController {
     })
     @GetMapping(path = "")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<TaskDTO>> index(TaskParamsDTO params, @RequestParam(defaultValue = "1") int page) {
+    public ResponseEntity<List<TaskDTO>> getAllTasks(TaskParamsDTO params, @RequestParam(defaultValue = "1") int page) {
         Page<TaskDTO> tasks = service.getAll(params, page);
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(page))
@@ -55,7 +55,7 @@ public class TaskController {
     })
     @GetMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskDTO show(
+    public TaskDTO getTaskById(
             @Parameter(description = "Id of task to be found")
             @PathVariable long id) {
         return service.findById(id);
@@ -69,7 +69,7 @@ public class TaskController {
     })
     @PostMapping(path = "")
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskDTO create(
+    public TaskDTO createTask(
             @Parameter(description = "Data to create task")
             @Valid
             @RequestBody TaskDTO taskData) {
@@ -84,7 +84,7 @@ public class TaskController {
     })
     @PutMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TaskDTO update(
+    public TaskDTO updateTaskById(
             @Parameter(description = "Data for updating task")
             @Valid
             @RequestBody TaskDTO taskData,
@@ -102,7 +102,7 @@ public class TaskController {
     })
     @DeleteMapping(path = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable long id) {
+    public void deleteTaskById(@PathVariable long id) {
         service.delete(id);
     }
 }
