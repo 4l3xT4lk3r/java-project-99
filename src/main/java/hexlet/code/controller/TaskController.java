@@ -95,7 +95,7 @@ public class TaskController {
 
     @Operation(summary = "Delete task")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Task deleted"),
+        @ApiResponse(responseCode = "204", description = "Task deleted"),
         @ApiResponse(responseCode = "401", description = "Not authorized for deleting task"),
         @ApiResponse(responseCode = "403", description = "Forbid to delete task"),
         @ApiResponse(responseCode = "404", description = "Task not found")

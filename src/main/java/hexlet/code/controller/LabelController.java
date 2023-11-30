@@ -92,7 +92,7 @@ public class LabelController {
 
     @Operation(summary = "Delete label")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Label deleted"),
+        @ApiResponse(responseCode = "204", description = "Label deleted"),
         @ApiResponse(responseCode = "401", description = "Not authorized for deleting label"),
         @ApiResponse(responseCode = "403", description = "Forbid to delete label"),
         @ApiResponse(responseCode = "404", description = "Label not found")

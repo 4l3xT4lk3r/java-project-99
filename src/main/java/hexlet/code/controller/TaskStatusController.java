@@ -93,7 +93,7 @@ public class TaskStatusController {
 
     @Operation(summary = "Delete task status")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Task status deleted"),
+        @ApiResponse(responseCode = "204", description = "Task status deleted"),
         @ApiResponse(responseCode = "401", description = "Not authorized for deleting task status"),
         @ApiResponse(responseCode = "403", description = "Forbid to delete task status"),
         @ApiResponse(responseCode = "404", description = "Task status not found")
