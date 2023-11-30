@@ -100,12 +100,10 @@ public class UserController {
     })
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("authentication.getName() == @UserService.findById(#id).getEmail().get()")
-    public ResponseEntity<String> delete(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(
             @Parameter(description = "Id of user to be deleted")
             @PathVariable long id) {
         service.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
     }
-
 }
